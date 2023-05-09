@@ -8,6 +8,7 @@
 #' @importFrom jsonlite fromJSON
 #'
 #' @export
+
 getGunStats <- function(gun) {
 
   uuid = df_id[gun == gun,]$uuid
@@ -40,4 +41,24 @@ getGunDamage <- function(gun) {
   gunInfo = fromJSON(rawToChar(api$content))
 
   data.frame(gunInfo$data$weaponStats$damageRanges)
+}
+
+#' Gets description of inputted agent
+#'
+#' @param agent name of agent (capitalized)
+#'
+#' @return A string that is an agent's description
+#'
+#' @importFrom httr GET
+#' @importFrom jsonlite fromJSON
+#'
+#' @export
+
+getAgentInfo <- function(agent) {
+  uuid = agent_id[agent == agent,]$uuid
+
+  api = GET(paste("https://valorant-api.com/v1/agents/", uuid, sep = ""))
+  agentInfo = fromJSON(rawToChar(api$content))
+
+  agentInfo$data$description
 }
