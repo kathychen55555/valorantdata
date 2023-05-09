@@ -1,46 +1,52 @@
 #' Gets basic stats about inputted gun
 #'
-#' @param gun name of gun
+#' @param gun name of gun in a string
 #'
 #' @return A data frame of information about the gun
 #'
-#' @importFrom httr GET
-#' @importFrom jsonlite fromJSON
-#'
 #' @export
-
 getGunStats <- function(gun) {
+  if (class(gun) == "character") {
+    return("Function must take in the gun name in form of a string")
+  }
+  else if (stringr::str_to_title(gun) %in% df_id$gun) {
+    return("Function must take in a gun from the game VALORANT")
+  }
 
-  uuid = df_id[gun == gun,]$uuid
+  api <- httr::GET(paste("https://valorant-api.com/v1/weapons/",
+                         df_id[df_id$gun == stringr::str_to_title(gun),]$uuid,
+                         sep = ""))
+  gunInfo <- jsonlite::fromJSON(rawToChar(api$content))
 
-  api = GET(paste("https://valorant-api.com/v1/weapons", uuid, sep = ""))
-  gunInfo = fromJSON(rawToChar(api$content))
-
-  df = data.frame(gunInfo$data$weaponStats[1:9])
-  df$gunName = gun
-  df$wallPenetration = gsub(".*::","",df$wallPenetration)
-  df$feature = gsub(".*::","",df$feature)
+  df <- data.frame(gunInfo$data$weaponStats[1:8])
+  df$gunName <- stringr::str_to_title(gun)
+  df$wallPenetration <- gsub(".*::","",df$wallPenetration)
+  df <- df[ , c("gunName", names(df)[names(df) != "gunName"])]
 
   return(df)
 }
 
 #' Gets damage stats about inputted gun
 #'
-#' @param gun name of gun
+#' @param gun name of gun in a string
 #'
 #' @return A data frame of damage information about the gun
 #'
-#' @importFrom httr GET
-#' @importFrom jsonlite fromJSON
-#'
 #' @export
 getGunDamage <- function(gun) {
-  uuid = df_id[gun == gun,]$uuid
+  if (class(gun) == "character") {
+    return("Function must take in the gun name in form of a string")
+  }
+  else if (stringr::str_to_title(gun) %in% df_id$gun) {
+    return("Function must take in a gun from the game VALORANT")
+  }
 
-  api = GET(paste("https://valorant-api.com/v1/weapons", uuid, sep = ""))
-  gunInfo = fromJSON(rawToChar(api$content))
+  api <- httr::GET(paste("https://valorant-api.com/v1/weapons/",
+                         df_id[df_id$gun == stringr::str_to_title(gun),]$uuid,
+                         sep = ""))
+  gunInfo <- jsonlite::fromJSON(rawToChar(api$content))
 
-  data.frame(gunInfo$data$weaponStats$damageRanges)
+  return(data.frame(gunInfo$data$weaponStats$damageRanges))
 }
 
 #' Gets description of inputted agent
@@ -49,16 +55,21 @@ getGunDamage <- function(gun) {
 #'
 #' @return A string that is an agent's description
 #'
-#' @importFrom httr GET
-#' @importFrom jsonlite fromJSON
-#'
 #' @export
 
 getAgentInfo <- function(agent) {
-  uuid = agent_id[agent == agent,]$uuid
+  if (class(agent) == "character") {
+    return("Function must take in agent name in the form of a string")
+  }
 
-  api = GET(paste("https://valorant-api.com/v1/agents/", uuid, sep = ""))
-  agentInfo = fromJSON(rawToChar(api$content))
+  else if (stringr::str_to_title(agent) %in% agent_id$agent) {
+    return("Function must take in an agent from the game VALORANT")
+  }
+
+  api = httr::GET(paste("https://valorant-api.com/v1/agents/",
+                  agent_id[agent_id$agent == stringr::str_to_title(agent),]$uuid,
+                  sep = ""))
+  agentInfo = jsonlite::fromJSON(rawToChar(api$content))
 
   agentInfo$data$description
 }
