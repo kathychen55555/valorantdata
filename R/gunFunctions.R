@@ -6,6 +6,7 @@
 #'
 #' @export
 getGunStats <- function(gun) {
+<<<<<<< HEAD
   guns <- c("Odin",
             "Ares",
             "Vandal",
@@ -45,14 +46,17 @@ getGunStats <- function(gun) {
   gun_data <- data.frame(gun = guns, uuid = uuids)
 
   if (class(gun) == "character") {
+=======
+  if (class(gun) != "character") {
+>>>>>>> e3d23bdfe88a2473f59dbe582a866f7afd9cf53c
     return("Function must take in the gun name in form of a string")
   }
-  else if (stringr::str_to_title(gun) %in% df_id$gun) {
+  else if (!(stringr::str_to_title(gun) %in% gun_id$gun)) {
     return("Function must take in a gun from the game VALORANT")
   }
 
   api <- httr::GET(paste("https://valorant-api.com/v1/weapons/",
-                         df_id[df_id$gun == stringr::str_to_title(gun),]$uuid,
+                         gun_id[gun_id$gun == stringr::str_to_title(gun),]$uuid,
                          sep = ""))
   gunInfo <- jsonlite::fromJSON(rawToChar(api$content))
 
@@ -72,20 +76,21 @@ getGunStats <- function(gun) {
 #'
 #' @export
 getGunDamage <- function(gun) {
-  if (class(gun) == "character") {
+  if (class(gun) != "character") {
     return("Function must take in the gun name in form of a string")
   }
-  else if (stringr::str_to_title(gun) %in% df_id$gun) {
+  else if (!(stringr::str_to_title(gun) %in% gun_id$gun)) {
     return("Function must take in a gun from the game VALORANT")
   }
 
   api <- httr::GET(paste("https://valorant-api.com/v1/weapons/",
-                         df_id[df_id$gun == stringr::str_to_title(gun),]$uuid,
+                         gun_id[gun_id$gun == stringr::str_to_title(gun),]$uuid,
                          sep = ""))
   gunInfo <- jsonlite::fromJSON(rawToChar(api$content))
 
   return(data.frame(gunInfo$data$weaponStats$damageRanges))
 }
+<<<<<<< HEAD
 
 #' Gets description of inputted agent
 #'
@@ -143,3 +148,5 @@ getAgentInfo <- function(agent) {
 
   agentInfo$data$description
 }
+=======
+>>>>>>> e3d23bdfe88a2473f59dbe582a866f7afd9cf53c
