@@ -21,7 +21,9 @@ Imports:
     magrittr,
     httr,
     jsonlite,
-    stringr
+    stringr,
+    dplyr,
+    ggplot2
 Depends: 
     R (>= 2.10)
 LazyData: true
