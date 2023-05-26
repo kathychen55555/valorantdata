@@ -6,6 +6,7 @@
 #'
 #' @export
 getGunStats <- function(gun) {
+
   if (class(gun) != "character") {
     return("Function must take in the gun name in form of a string")
   }
@@ -48,3 +49,4 @@ getGunDamage <- function(gun) {
 
   return(data.frame(gunInfo$data$weaponStats$damageRanges))
 }
+
