@@ -72,10 +72,11 @@ allGunStats <- function(statistic) {
 
   df_gun <- data.frame(gun_name <- gun_id$gun, info <- info)
 
-  return(
-    plotly::plot_ly(data = gunInfo, x = ~info, type = "box", boxpoints = "all",
-                    pointpos = 0.0, text = ~gun_name, name = "Gun Statistics") %>%
-      plotly::layout(xaxis=list(title=x))
-    )
+  plot <- gunInfo %>%
+    plotly::plot_ly(x = ~info, type = "box", boxpoints = "all", pointpos = 0.0,
+                    text = ~gun_name, name = "Gun Statistics") %>%
+    plotly::layout(xaxis=list(title=statistic))
+
+  return(plot)
 
 }
