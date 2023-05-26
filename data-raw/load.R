@@ -2,8 +2,11 @@
 
 library(tidyverse)
 
-gun_id <- read_csv(here::here("data-raw", "gun_uuid.csv"))
-usethis::use_data(gun_id, overwrite = TRUE)
+gun_id <- read_csv(here::here("data-raw", "guns.csv"))
 
 agent_id <- read_csv(here::here("data-raw", "agents.csv"))
-usethis::use_data(agent_id, overwrite = TRUE)
+
+map_id <- read_csv(here::here("data-raw", "maps.csv"))
+
+usethis::use_data(c(gun_id, agent_id, map_id), overwrite = TRUE)
+
