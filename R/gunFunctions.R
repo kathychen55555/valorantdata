@@ -6,7 +6,7 @@
 #'
 #' @export
 getGunStats <- function(gun) {
-
+  
   gunInfo <- gunSetUp(gun)
   if (class(gunInfo) == "character") {
     stop(gunInfo)
@@ -79,3 +79,4 @@ allGunStats <- function(statistic) {
     )
 
 }
+
