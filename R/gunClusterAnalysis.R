@@ -40,15 +40,18 @@ gunClusterAnalysis <- function(username, tagline, region, filter = "competitive"
     df <- rbind(df, temp)
   }
 
+#' data wrangling on df
   df <- df %>%
     group_by(gun_name) %>%
     summarize(avg_kills = mean(kills), avg_damage = mean(damage))
 
+#' create kmeans with centers
   my_kmeans <- df %>%
     select(avg_kills, avg_damage) %>%
     mutate_all(~scale(.)) %>%
     kmeans(centers = centers)
 
+#' create plotly scatterplot
   plot <- df %>%
     mutate(cluster = as.character(sort(my_kmeans$cluster))) %>%
     plotly::plot_ly(type = "scatter", x = ~avg_kills, y = ~avg_damage, color = ~cluster, text = ~gun_name) %>%

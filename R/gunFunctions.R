@@ -35,11 +35,14 @@ getGunDamage <- function(gun) {
   if (class(gunInfo) == "character") {
     stop(gunInfo)
   }
-
+#' return dataframe of damage stats
   return(data.frame(gunInfo$data$weaponStats$damageRanges))
 }
 
-# helper function
+
+
+
+#' helper function
 gunSetUp <- function(gun) {
 
   if (class(gun) != "character") {
@@ -54,6 +57,8 @@ gunSetUp <- function(gun) {
                          sep = ""))
   return(jsonlite::fromJSON(rawToChar(api$content)))
 }
+
+
 
 #' Creates a visualization about all guns in respect to a certain statistic
 #'
@@ -79,6 +84,7 @@ allGunStats <- function(statistic) {
 
   df_gun <- data.frame(gun_name <- gun_id$gun, info <- info)
 
+#' create plotly boxplot
   plot <- df_gun %>%
     plotly::plot_ly(x = ~info, type = "box", boxpoints = "all", pointpos = 0.0,
                     text = ~gun_name, name = "Gun Statistics") %>%
@@ -110,11 +116,14 @@ gunFireLevel <- function(wall_pen_level) {
 
   info <- jsonlite::fromJSON(rawToChar(api$content))$data$weaponStats[1:17,]
 
+
+#' data wrangling on info data
   info <- info %>%
     mutate(gunName = gun_id$gun) %>%
     filter(wallPenetration == paste0("EWallPenetrationDisplayType::", stringr::str_to_title(wall_pen_level)))
   info$wallPenetration <- gsub("EWallPenetrationDisplayType::", "", info$wallPenetration)
 
+#' create plotly boxplot
     plot <- plotly::plot_ly(data = info,
                           x = ~fireRate,
                           type = "box",
@@ -124,7 +133,7 @@ gunFireLevel <- function(wall_pen_level) {
                           boxpoints = "all",
                           pointpos = 0.0)
 
-
+#' add x/y axis and title to plotly
   plot <- plotly::layout(plot,
                          xaxis = list(title = "Fire Rate"),
                          yaxis = list(title = "Wall Penetration Level"),
