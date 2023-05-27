@@ -2,12 +2,8 @@ Package: valorantdata
 Title: Valorant Data Tracker (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    c(person("Brandon", "Kim", , "bkim89@calpoly.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
-      person("Kathy", "Chen", , "kchen126@calpoly.edu", role = c("aut"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
-      person("Cameron", "Stivers", , "ctstiver@calpoly.edu", role = c("aut"),
-           comment = c(ORCID = "YOUR-ORCID-ID")))
+    person("Brandon", "Kim", , "bkim89@calpoly.edu", role = c("aut", "cre"),
+          comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Get data on agents and guns.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
