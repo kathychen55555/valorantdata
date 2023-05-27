@@ -88,7 +88,7 @@ allGunStats <- function(statistic) {
   return(plot)
 
 }
-allGunStats(statistic = "fireRate")
+
 #' Creates a visualization about all guns in respect to a certain statistic
 #'
 #' @param wall_pen_level ("Low", "Medium", "High")
@@ -99,6 +99,13 @@ allGunStats(statistic = "fireRate")
 #'
 #' @export
 gunFireLevel <- function(wall_pen_level) {
+
+  if (class(wall_pen_level) != "character") {
+    stop("Function must take in a gun penetration level in the form of a string")
+  }
+  else if (!(wall_pen_level %in% c("Low", "Medium", "High"))) {
+    stop("Function must take in a wall penetration level that a gun has. This includes Low, Medium, High")
+  }
 
   api <- httr::GET("https://valorant-api.com/v1/weapons/")
 
@@ -127,4 +134,3 @@ gunFireLevel <- function(wall_pen_level) {
 
   return(plot)
 }
-gunFireLevel(wall_pen_level = "Low")
