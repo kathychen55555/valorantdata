@@ -20,6 +20,7 @@ getGunStats <- function(gun) {
   return(df)
 }
 
+
 #' Gets damage stats about inputted gun
 #'
 #' @param gun name of gun in a string
@@ -69,7 +70,7 @@ allGunStats <- function(statistic) {
   if (class(statistic) != "character") {
     stop("Function must take in the gun statistic in form of a string")
   }
-  else if (!(stringr::str_to_title(gun) %in% c("fireRate", "magazineSize", "equipTimeSeconds", "reloadTimeSeconds"))) {
+  else if (!(statistic %in% c("fireRate", "magazineSize", "equipTimeSeconds", "reloadTimeSeconds"))) {
     stop("Function must take in a property a gun has. This includes fireRate, magazineSize, equipTimeSeconds, and reloadTimeSeconds.")
   }
 
@@ -79,7 +80,7 @@ allGunStats <- function(statistic) {
 
   df_gun <- data.frame(gun_name <- gun_id$gun, info <- info)
 
-  plot <- gunInfo %>%
+  plot <- df_gun %>%
     plotly::plot_ly(x = ~info, type = "box", boxpoints = "all", pointpos = 0.0,
                     text = ~gun_name, name = "Gun Statistics") %>%
     plotly::layout(xaxis=list(title=statistic))
@@ -98,6 +99,13 @@ allGunStats <- function(statistic) {
 #'
 #' @export
 gunFireLevel <- function(wall_pen_level) {
+
+  if (class(wall_pen_level) != "character") {
+    stop("Function must take in a gun penetration level in the form of a string")
+  }
+  else if (!(wall_pen_level %in% c("Low", "Medium", "High"))) {
+    stop("Function must take in a wall penetration level that a gun has. This includes Low, Medium, High")
+  }
 
   api <- httr::GET("https://valorant-api.com/v1/weapons/")
 
