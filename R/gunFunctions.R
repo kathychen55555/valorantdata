@@ -20,7 +20,6 @@ getGunStats <- function(gun) {
   return(df)
 }
 
-
 #' Gets damage stats about inputted gun
 #'
 #' @param gun name of gun in a string
@@ -114,8 +113,9 @@ gunFireLevel <- function(wall_pen_level) {
   info <- info %>%
     mutate(gunName = gun_id$gun) %>%
     filter(wallPenetration == paste0("EWallPenetrationDisplayType::", stringr::str_to_title(wall_pen_level)))
+  info$wallPenetration <- gsub("EWallPenetrationDisplayType::", "", info$wallPenetration)
 
-  plot <- plotly::plot_ly(data = info,
+    plot <- plotly::plot_ly(data = info,
                           x = ~fireRate,
                           type = "box",
                           color = ~wallPenetration,
@@ -127,10 +127,9 @@ gunFireLevel <- function(wall_pen_level) {
 
   plot <- plotly::layout(plot,
                          xaxis = list(title = "Fire Rate"),
-                         yaxis = list(title = "Wall Penetration Level",
-                                      categoryorder = "array",
-                                      categoryarray = c("Low", "Medium", "High")),
+                         yaxis = list(title = "Wall Penetration Level"),
                          title = "Gun Fire Rate on Wall Penetration Level")
 
   return(plot)
 }
+
