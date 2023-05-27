@@ -9,7 +9,7 @@ getMapInfo <- function(map) {
   if (class(map) != "character") {
     stop("Function must take in the map name in form of a string")
   }
-  else if (!(stringr::str_to_title(gun) %in% map_id$map)) {
+  else if (!(stringr::str_to_title(map) %in% map_id$map)) {
     stop("Function must take in a map from the game VALORANT")
   }
   api <- httr::GET(paste("https://valorant-api.com/v1/maps/",
