@@ -7,7 +7,7 @@
 getAgentInfo(agent)
 }
 \arguments{
-\item{agent}{name of agent (capitalized)}
+\item{agent}{name of agent in a string}
 }
 \value{
 A string that is an agent's description
